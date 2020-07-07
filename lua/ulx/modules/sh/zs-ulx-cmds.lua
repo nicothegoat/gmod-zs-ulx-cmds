@@ -18,6 +18,7 @@ end
 local redeem = ulx.command( "ZS ULX Commands", "ulx redeem", ulx.redeem, "!redeem" )
 redeem:addParam{ type = ULib.cmds.PlayersArg }
 redeem:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "silent" }
+redeem:defaultAccess( ULib.ACCESS_ADMIN )
 redeem:help( "Redeem target(s)" )
 
 
@@ -53,4 +54,5 @@ local forceboss = ulx.command( "ZS ULX Commands", "ulx forceboss", ulx.forceboss
 forceboss:addParam{ type = ULib.cmds.PlayersArg }
 forceboss:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "silent" }
 forceboss:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place" }
+forceboss:defaultAccess( ULib.ACCESS_ADMIN )
 forceboss:help( "Respawn target(s) as boss" )
