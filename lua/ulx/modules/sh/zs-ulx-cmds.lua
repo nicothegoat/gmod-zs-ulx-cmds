@@ -33,12 +33,12 @@ function ulx.forceboss( caller, targets, silent, inPlace )
 				local pos = target:GetPos()
 				local ang = target:GetAngles()
 
-				gamemode.Call( "SpawnBossZombie", target )
+				gamemode.Call( "SpawnBossZombie", target, silent )
 
 				target:SetPos( pos )
 				target:SetAngles( ang )
 			else
-				gamemode.Call( "SpawnBossZombie", target )
+				gamemode.Call( "SpawnBossZombie", target, silent )
 			end
 
 			table.insert( affected, target )
