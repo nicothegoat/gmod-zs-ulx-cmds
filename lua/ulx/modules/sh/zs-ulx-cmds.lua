@@ -1,10 +1,10 @@
-local function ulx.redeem( caller, targets, silent )
+function ulx.redeem( caller, targets, silent )
 	local affected = {}
 
 	for i = 1, #targets do
 		local target = targets[ i ]
 
-		if target:Team == TEAM_UNDEAD then
+		if target:Team() == TEAM_UNDEAD then
 			target:Redeem( silent )
 			table.insert( affected, target )
 		else
@@ -18,16 +18,16 @@ end
 local redeem = ulx.command( "ZS ULX Commands", "ulx redeem", ulx.redeem, "!redeem" )
 redeem:addParam{ type = ULib.cmds.PlayersArg }
 redeem:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "silent" }
-redeem:addHelp( "Redeem target(s)" )
+redeem:help( "Redeem target(s)" )
 
 
-local function ulx.forceboss( caller, targets, silent, inPlace )
+function ulx.forceboss( caller, targets, silent, inPlace )
 	local affected = {}
 
 	for i = 1, #targets do
 		local target = targets[ i ]
 
-		if target:Team == TEAM_UNDEAD then
+		if target:Team() == TEAM_UNDEAD then
 			if inPlace then
 				local pos = target:GetPos()
 				local ang = target:GetAngles()
@@ -53,4 +53,4 @@ local forceboss = ulx.command( "ZS ULX Commands", "ulx forceboss", ulx.forceboss
 forceboss:addParam{ type = ULib.cmds.PlayersArg }
 forceboss:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "silent" }
 forceboss:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place" }
-forceboss:addHelp( "Respawn target(s) as boss" )
+forceboss:help( "Respawn target(s) as boss" )
