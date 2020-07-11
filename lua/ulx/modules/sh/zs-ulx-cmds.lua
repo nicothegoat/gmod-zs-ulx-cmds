@@ -56,3 +56,70 @@ forceboss:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "silent" }
 forceboss:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place" }
 forceboss:defaultAccess( ULib.ACCESS_ADMIN )
 forceboss:help( "Respawn target(s) as boss" )
+
+
+local ZombieClasses
+local classLookup
+
+if SERVER then
+	ZombieClasses = gmod.GetGamemode().ZombieClasses
+	classLookup = {}
+
+	for k, v in pairs( ZombieClasses ) do
+		if isstring( k ) then
+			classLookup[ k:lower() ] = k
+		end
+	end
+end
+
+function ulx.forceclass( caller, targets, className, inPlace )
+	className = classLookup[ className ] or className
+	local class = ZombieClasses[ className ]
+
+	if not class then
+		ULib.tsayError( caller, "No such class \"" .. tostring( className ) .. "\"!" )
+		return
+	end
+
+	local classIndex = class.Index
+
+	local affected = {}
+
+	for i = 1, #targets do
+		local target = targets[ i ]
+
+		if target:Team() == TEAM_UNDEAD then
+			if inPlace then
+				local pos = target:GetPos()
+				local ang = target:GetAngles()
+
+				-- copied from GM:SpawnBossZombie
+				target:KillSilent()
+				target:SetZombieClass( classIndex )
+				target:DoHulls( classIndex, TEAM_UNDEAD )
+				target:UnSpectateAndSpawn()
+
+				target:SetPos( pos )
+				target:SetAngles( ang )
+			else
+				target:KillSilent()
+				target:SetZombieClass( classIndex )
+				target:DoHulls( classIndex, TEAM_UNDEAD )
+				target:UnSpectateAndSpawn()
+			end
+
+			table.insert( affected, target )
+		else
+			ULib.tsayError( caller, target:Nick() .. " isn't a zombie!", true )
+		end
+	end
+
+	ulx.fancyLogAdmin( caller, "#A forced #T to be #s", affected, className )
+end
+
+local forceclass = ulx.command( "ZS ULX Commands", "ulx forceclass", ulx.forceclass, "!forceclass" )
+forceclass:addParam{ type = ULib.cmds.PlayersArg }
+forceclass:addParam{ type = ULib.cmds.StringArg, hint = "class" }
+forceclass:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place" }
+forceclass:defaultAccess( ULib.ACCESS_ADMIN )
+forceclass:help( "Respawn target(s) as the specified class" )
