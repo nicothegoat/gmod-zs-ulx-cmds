@@ -17,7 +17,7 @@ end
 
 local redeem = ulx.command( "ZS ULX Commands", "ulx redeem", ulx.redeem, "!redeem" )
 redeem:addParam{ type = ULib.cmds.PlayersArg }
-redeem:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "silent" }
+redeem:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "silent", ULib.cmds.optional }
 redeem:defaultAccess( ULib.ACCESS_ADMIN )
 redeem:help( "Redeem target(s)" )
 
@@ -52,8 +52,8 @@ end
 
 local forceboss = ulx.command( "ZS ULX Commands", "ulx forceboss", ulx.forceboss, "!forceboss" )
 forceboss:addParam{ type = ULib.cmds.PlayersArg }
-forceboss:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "silent" }
-forceboss:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place" }
+forceboss:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "silent", ULib.cmds.optional }
+forceboss:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place", ULib.cmds.optional }
 forceboss:defaultAccess( ULib.ACCESS_ADMIN )
 forceboss:help( "Respawn target(s) as boss" )
 
@@ -120,7 +120,7 @@ hook.Add( "Initialize", "zs_ulx_cmds",
 		local forceclass = ulx.command( "ZS ULX Commands", "ulx forceclass", ulx.forceclass, "!forceclass" )
 		forceclass:addParam{ type = ULib.cmds.PlayersArg }
 		forceclass:addParam{ type = ULib.cmds.StringArg, hint = "class", completes = forceclassCompletes, ULib.restrictToCompletes }
-		forceclass:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place" }
+		forceclass:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place", ULib.cmds.optional }
 		forceclass:defaultAccess( ULib.ACCESS_ADMIN )
 		forceclass:help( "Respawn target(s) as the specified class" )
 	end
