@@ -102,6 +102,21 @@ function ulx.forceclass( caller, targets, className, inPlace )
 	ulx.fancyLogAdmin( caller, "#A forced #T to be #s", affected, className )
 end
 
+
+function ulx.waveactive( caller, active )
+	if active ~= gamemode.Call( "GetWaveActive" ) then
+		gamemode.Call( "SetWaveActive", active )
+
+		ulx.fancyLogAdmin( caller, "#A #s the wave", active and "started" or "ended" )
+	end
+end
+
+local waveactive = ulx.command( "ZS ULX Commands", "ulx waveactive", ulx.waveactive, "!waveactive" )
+waveactive:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "active" }
+waveactive:defaultAccess( ULib.ACCESS_ADMIN )
+waveactive:help( "Start or end the wave" )
+
+
 -- these commands depend on data that doesn't exist until the gamemode is fully loaded
 hook.Add( "Initialize", "zs_ulx_cmds",
 	function()
