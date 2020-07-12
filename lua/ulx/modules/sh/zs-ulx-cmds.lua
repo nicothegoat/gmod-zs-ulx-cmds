@@ -117,6 +117,23 @@ waveactive:defaultAccess( ULib.ACCESS_ADMIN )
 waveactive:help( "Start or end the wave" )
 
 
+function ulx.wavetime( caller, time )
+	time = time * 60
+
+	gamemode.Call(
+		gamemode.Call( "GetWaveActive" ) and "SetWaveEnd" or "SetWaveStart",
+		CurTime() + time
+	);
+
+	ulx.fancyLogAdmin( caller, "#A set time until wave start/end to #s", ULib.secondsToStringTime( time ) or "0 seconds" )
+end
+
+local wavetime = ulx.command( "ZS ULX Commands", "ulx wavetime", ulx.wavetime, "!wavetime" )
+wavetime:addParam{ type = ULib.cmds.NumArg, hint = "time", max = 60, ULib.cmds.allowTimeString }
+wavetime:defaultAccess( ULib.ACCESS_ADMIN )
+wavetime:help( "Set time until wave start/end" )
+
+
 -- these commands depend on data that doesn't exist until the gamemode is fully loaded
 hook.Add( "Initialize", "zs_ulx_cmds",
 	function()
