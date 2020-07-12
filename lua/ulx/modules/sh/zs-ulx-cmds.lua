@@ -118,7 +118,7 @@ hook.Add( "Initialize", "zs_ulx_cmds",
 
 		local forceclass = ulx.command( "ZS ULX Commands", "ulx forceclass", ulx.forceclass, "!forceclass" )
 		forceclass:addParam{ type = ULib.cmds.PlayersArg }
-		forceclass:addParam{ type = ULib.cmds.StringArg, hint = "class", completes = forceclassCompletes, ULib.restrictToCompletes }
+		forceclass:addParam{ type = ULib.cmds.StringArg, hint = "class", completes = forceclassCompletes, ULib.cmds.restrictToCompletes }
 		forceclass:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place", ULib.cmds.optional }
 		forceclass:defaultAccess( ULib.ACCESS_ADMIN )
 		forceclass:help( "Respawn target(s) as the specified class" )
