@@ -58,26 +58,21 @@ forceboss:defaultAccess( ULib.ACCESS_ADMIN )
 forceboss:help( "Respawn target(s) as boss" )
 
 
-local ZombieClasses
-local classLookup
+local ZombieClasses = ( gmod.GetGamemode() or {} ).ZombieClasses
+local forceclassCompletes = {}
 
-if SERVER then
-	ZombieClasses = gmod.GetGamemode().ZombieClasses
-	classLookup = {}
-
-	for k, v in pairs( ZombieClasses ) do
-		if isstring( k ) then
-			classLookup[ k:lower() ] = k
+if ZombieClasses then
+	for key in pairs( ZombieClasses ) do
+		if isstring( key ) then
+			table.insert( forceclassCompletes, key )
 		end
 	end
 end
 
 function ulx.forceclass( caller, targets, className, inPlace )
-	className = classLookup[ className ] or className
 	local class = ZombieClasses[ className ]
-
 	if not class then
-		ULib.tsayError( caller, "No such class \"" .. tostring( className ) .. "\"!" )
+		ULib.tsayError( caller, "No such class \"" .. className .. "\"!" )
 		return
 	end
 
@@ -119,7 +114,7 @@ end
 
 local forceclass = ulx.command( "ZS ULX Commands", "ulx forceclass", ulx.forceclass, "!forceclass" )
 forceclass:addParam{ type = ULib.cmds.PlayersArg }
-forceclass:addParam{ type = ULib.cmds.StringArg, hint = "class" }
+forceclass:addParam{ type = ULib.cmds.StringArg, hint = "class", completes = forceclassCompletes, ULib.restrictToCompletes }
 forceclass:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place" }
 forceclass:defaultAccess( ULib.ACCESS_ADMIN )
 forceclass:help( "Respawn target(s) as the specified class" )
