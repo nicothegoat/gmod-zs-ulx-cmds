@@ -58,16 +58,7 @@ forceboss:defaultAccess( ULib.ACCESS_ADMIN )
 forceboss:help( "Respawn target(s) as boss" )
 
 
-local ZombieClasses = ( gmod.GetGamemode() or {} ).ZombieClasses
-local forceclassCompletes = {}
-
-if ZombieClasses then
-	for key in pairs( ZombieClasses ) do
-		if isstring( key ) then
-			table.insert( forceclassCompletes, key )
-		end
-	end
-end
+local ZombieClasses
 
 function ulx.forceclass( caller, targets, className, inPlace )
 	local class = ZombieClasses[ className ]
@@ -112,9 +103,25 @@ function ulx.forceclass( caller, targets, className, inPlace )
 	ulx.fancyLogAdmin( caller, "#A forced #T to be #s", affected, className )
 end
 
-local forceclass = ulx.command( "ZS ULX Commands", "ulx forceclass", ulx.forceclass, "!forceclass" )
-forceclass:addParam{ type = ULib.cmds.PlayersArg }
-forceclass:addParam{ type = ULib.cmds.StringArg, hint = "class", completes = forceclassCompletes, ULib.restrictToCompletes }
-forceclass:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place" }
-forceclass:defaultAccess( ULib.ACCESS_ADMIN )
-forceclass:help( "Respawn target(s) as the specified class" )
+-- these commands depend on data that doesn't exist until the gamemode is fully loaded
+hook.Add( "Initialize", "zs_ulx_cmds",
+	function()
+		local GAMEMODE = gmod.GetGamemode()
+
+		ZombieClasses = GAMEMODE.ZombieClasses
+
+		local forceclassCompletes = {}
+		for k in pairs( ZombieClasses ) do
+			if isstring( k ) then
+				table.insert( forceclassCompletes, k )
+			end
+		end
+
+		local forceclass = ulx.command( "ZS ULX Commands", "ulx forceclass", ulx.forceclass, "!forceclass" )
+		forceclass:addParam{ type = ULib.cmds.PlayersArg }
+		forceclass:addParam{ type = ULib.cmds.StringArg, hint = "class", completes = forceclassCompletes, ULib.restrictToCompletes }
+		forceclass:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place" }
+		forceclass:defaultAccess( ULib.ACCESS_ADMIN )
+		forceclass:help( "Respawn target(s) as the specified class" )
+	end
+)
