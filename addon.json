@@ -1,0 +1,10 @@
+{
+	"title":       "ZS ULX Commands",
+	"type":        "tool",
+	"tags":        ["fun", "roleplay"],
+	"description": "ULX commands for Zombie Survival. Heavily inspired by Swingflip's addon of the same name.",
+	"ignore": [
+		"UNLICENSE",
+		".git*"
+	]
+}
