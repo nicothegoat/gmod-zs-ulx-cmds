@@ -175,8 +175,10 @@ hook.Add( "Initialize", "zs_ulx_cmds",
 
 		ZombieClasses = GAMEMODE.ZombieClasses
 
+		local forceclassCompletes
 		if ZombieClasses then
-			local forceclassCompletes = {}
+			forceclassCompletes = {}
+
 			for k in pairs( ZombieClasses ) do
 				if isstring( k ) then
 					table.insert( forceclassCompletes, k )
