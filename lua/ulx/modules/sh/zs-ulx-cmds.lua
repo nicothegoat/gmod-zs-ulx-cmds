@@ -149,6 +149,30 @@ givepoints:defaultAccess( ULib.ACCESS_ADMIN )
 givepoints:help( "Give points to target(s)" )
 
 
+function ulx.giveweapon( caller, targets, weapon, giveAmmo )
+	local affected = {}
+
+	for i = 1, #targets do
+		local target = targets[ i ]
+
+		if target:Alive() then
+			target:Give( weapon, not giveAmmo )
+
+			table.insert( affected, target )
+		else
+			ULib.tsayError( caller, target:Nick() .. " is dead!", true )
+		end
+	end
+
+	ulx.fancyLogAdmin( caller, "#A gave #s to #T", weapon, targets )
+end
+
+local giveweapon = ulx.command( "ZS ULX Commands", "ulx giveweapon", ulx.giveweapon, "!giveweapon" )
+giveweapon:addParam{ type = ULib.cmds.PlayersArg }
+giveweapon:addParam{ type = ULib.cmds.StringArg, hint = "weapon class name" }
+giveweapon:addParam{ type = ULib.cmds.BoolArg, default = true, hint = "give ammo", ULib.cmds.optional }
+
+
 -- these commands depend on data that doesn't exist until the gamemode is fully loaded
 hook.Add( "Initialize", "zs_ulx_cmds",
 	function()
