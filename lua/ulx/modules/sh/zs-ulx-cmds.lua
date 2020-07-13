@@ -167,11 +167,6 @@ function ulx.giveweapon( caller, targets, weapon, giveAmmo )
 	ulx.fancyLogAdmin( caller, "#A gave #s to #T", weapon, targets )
 end
 
-local giveweapon = ulx.command( "ZS ULX Commands", "ulx giveweapon", ulx.giveweapon, "!giveweapon" )
-giveweapon:addParam{ type = ULib.cmds.PlayersArg }
-giveweapon:addParam{ type = ULib.cmds.StringArg, hint = "weapon class name" }
-giveweapon:addParam{ type = ULib.cmds.BoolArg, default = true, hint = "give ammo", ULib.cmds.optional }
-
 
 -- these commands depend on data that doesn't exist until the gamemode is fully loaded
 hook.Add( "Initialize", "zs_ulx_cmds",
@@ -193,5 +188,16 @@ hook.Add( "Initialize", "zs_ulx_cmds",
 		forceclass:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place", ULib.cmds.optional }
 		forceclass:defaultAccess( ULib.ACCESS_ADMIN )
 		forceclass:help( "Respawn target(s) as the specified class" )
+
+
+		local weaponClasses = {}
+		for _, tbl in pairs( weapons.GetList() ) do
+			table.insert( weaponClasses, tbl.ClassName )
+		end
+
+		local giveweapon = ulx.command( "ZS ULX Commands", "ulx giveweapon", ulx.giveweapon, "!giveweapon" )
+		giveweapon:addParam{ type = ULib.cmds.PlayersArg }
+		giveweapon:addParam{ type = ULib.cmds.StringArg, hint = "weapon class name", completes = weaponClasses, ULib.cmds.restrictToCompletes }
+		giveweapon:addParam{ type = ULib.cmds.BoolArg, default = true, hint = "give ammo", ULib.cmds.optional }
 	end
 )
