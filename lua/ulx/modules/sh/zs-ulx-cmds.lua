@@ -35,7 +35,8 @@ function ulx.forceboss( caller, targets, silent, inPlace )
 				gamemode.Call( "SpawnBossZombie", target, silent )
 
 				target:SetPos( pos )
-				target:SetAngles( ang )
+				-- setting the angles right after spawning doesn't work
+				timer.Simple( 0, function() target:SetEyeAngles( ang ) end )
 			else
 				gamemode.Call( "SpawnBossZombie", target, silent )
 			end
@@ -85,7 +86,8 @@ function ulx.forceclass( caller, targets, className, inPlace )
 				target:UnSpectateAndSpawn()
 
 				target:SetPos( pos )
-				target:SetAngles( ang )
+				-- setting the angles right after spawning doesn't work
+				timer.Simple( 0, function() target:SetEyeAngles( ang ) end )
 			else
 				target:KillSilent()
 				target:SetZombieClass( classIndex )
