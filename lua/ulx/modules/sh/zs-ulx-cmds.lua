@@ -134,6 +134,21 @@ wavetime:defaultAccess( ULib.ACCESS_ADMIN )
 wavetime:help( "Set time until wave start/end" )
 
 
+function ulx.givepoints( caller, targets, points )
+	for i = 1, #targets do
+		targets[ i ]:AddFrags( points )
+	end
+
+	ulx.fancyLogAdmin( caller, "#A gave #i points to #T", points, targets )
+end
+
+local givepoints = ulx.command( "ZS ULX Commands", "ulx givepoints", ulx.givepoints, "!givepoints" )
+givepoints:addParam{ type = ULib.cmds.PlayersArg }
+givepoints:addParam{ type = ULib.cmds.NumArg, hint = "points" }
+givepoints:defaultAccess( ULib.ACCESS_ADMIN )
+givepoints:help( "Give points to target(s)" )
+
+
 -- these commands depend on data that doesn't exist until the gamemode is fully loaded
 hook.Add( "Initialize", "zs_ulx_cmds",
 	function()
