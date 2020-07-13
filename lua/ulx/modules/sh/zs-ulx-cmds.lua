@@ -201,5 +201,7 @@ hook.Add( "Initialize", "zs_ulx_cmds",
 		giveweapon:addParam{ type = ULib.cmds.PlayersArg }
 		giveweapon:addParam{ type = ULib.cmds.StringArg, hint = "weapon class name", completes = weaponClasses, ULib.cmds.restrictToCompletes }
 		giveweapon:addParam{ type = ULib.cmds.BoolArg, default = true, hint = "give ammo", ULib.cmds.optional }
+		giveweapon:defaultAccess( ULib.ACCESS_ADMIN )
+		giveweapon:help( "Give weapon to target(s)" )
 	end
 )
