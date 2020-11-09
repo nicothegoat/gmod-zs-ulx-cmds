@@ -136,13 +136,13 @@ wavetime:defaultAccess( ULib.ACCESS_ADMIN )
 wavetime:help( "Set time until wave start/end" )
 
 
-function ulx.givepoints( caller, targets, points )
+function ulx.givepoints( caller, targets, points, giveScore )
 	for i = 1, #targets do
 		local target = targets[ i ]
 		-- AddPoints does way more than just adding points
 		-- set the points directly instead
 		target:SetPoints( target:GetPoints() + points )
-		target:AddFrags( points )
+		if giveScore then target:AddFrags( points ) end
 	end
 
 	ulx.fancyLogAdmin( caller, "#A gave #i points to #T", points, targets )
@@ -151,6 +151,7 @@ end
 local givepoints = ulx.command( "ZS ULX Commands", "ulx givepoints", ulx.givepoints, "!givepoints" )
 givepoints:addParam{ type = ULib.cmds.PlayersArg }
 givepoints:addParam{ type = ULib.cmds.NumArg, hint = "points" }
+givepoints:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "give score", ULib.cmds.optional }
 givepoints:defaultAccess( ULib.ACCESS_ADMIN )
 givepoints:help( "Give points to target(s)" )
 
