@@ -5,6 +5,7 @@
 	"description": "ULX commands for Zombie Survival. Heavily inspired by Swingflip's addon of the same name.",
 	"ignore": [
 		"UNLICENSE",
+		"README.md",
 		".git*"
 	]
 }
