@@ -1,12 +1,18 @@
-function ulx.redeem( caller, targets )
+function ulx.redeem( caller, targets, inPlace )
 	local affected = {}
 
 	for i = 1, #targets do
 		local target = targets[ i ]
 
 		if target:Team() == TEAM_UNDEAD then
+			local pos = target:GetPos()
+			local ang = target:GetAngles()
+
 			target:Redeem()
 			table.insert( affected, target )
+
+			target:SetPos( pos )
+			target:SetEyeAngles( ang )
 		else
 			ULib.tsayError( caller, target:Nick() .. " isn't a zombie!", true )
 		end
@@ -17,6 +23,7 @@ end
 
 local redeem = ulx.command( "ZS ULX Commands", "ulx redeem", ulx.redeem, "!redeem" )
 redeem:addParam{ type = ULib.cmds.PlayersArg }
+redeem:addParam{ type = ULib.cmds.BoolArg, default = false, hint = "respawn in place", ULib.cmds.optional }
 redeem:defaultAccess( ULib.ACCESS_ADMIN )
 redeem:help( "Redeem target(s)" )
 
@@ -35,7 +42,7 @@ function ulx.forceboss( caller, targets, silent, inPlace )
 				gamemode.Call( "SpawnBossZombie", target, silent )
 
 				target:SetPos( pos )
-				-- setting the angles right after spawning doesn't work
+				-- setting the angles right after spawning doesn't work here
 				timer.Simple( 0, function() target:SetEyeAngles( ang ) end )
 			else
 				gamemode.Call( "SpawnBossZombie", target, silent )
@@ -86,7 +93,7 @@ function ulx.forceclass( caller, targets, className, inPlace )
 				target:UnSpectateAndSpawn()
 
 				target:SetPos( pos )
-				-- setting the angles right after spawning doesn't work
+				-- setting the angles right after spawning doesn't work here
 				timer.Simple( 0, function() target:SetEyeAngles( ang ) end )
 			else
 				target:KillSilent()
