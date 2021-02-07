@@ -5,8 +5,9 @@ Heavily inspired by Swingflip's addon of the same name.
 
 ## Commands:
 
-- `redeem <TARGETS>`  
+- `redeem <TARGETS> [<RESPAWN IN PLACE>]`  
 	Redeem target(s).
+	Targets will be respawned at their current position if `RESPAWN IN PLACE` is true.
 
 - `forceboss <TARGETS> [<SILENT>] [<RESPAWN IN PLACE>]`  
 	Respawn target(s) as their selected boss.  
