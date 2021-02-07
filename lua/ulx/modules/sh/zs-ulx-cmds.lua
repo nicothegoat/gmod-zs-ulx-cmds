@@ -8,11 +8,17 @@ function ulx.redeem( caller, targets, inPlace )
 			local pos = target:GetPos()
 			local ang = target:GetAngles()
 
-			target:Redeem()
-			table.insert( affected, target )
+			local lastSpawned = target.SpawnedTime
 
-			target:SetPos( pos )
-			target:SetEyeAngles( ang )
+			target:Redeem()
+
+			-- Redeem will update SpawnedTime if it succeeded
+			if lastSpawned ~= target.SpawnedTime then
+				table.insert( affected, target )
+
+				target:SetPos( pos )
+				target:SetEyeAngles( ang )
+			end
 		else
 			ULib.tsayError( caller, target:Nick() .. " isn't a zombie!", true )
 		end
